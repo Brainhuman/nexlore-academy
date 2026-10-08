@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <input type="text" id="full_name">
 
           <label>ایمیل</label>
-          <input type="email" id="email">
+          <input type="text" id="email">
 
           <label>زبان مورد نظر</label>
 
