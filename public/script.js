@@ -2,7 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const loginButton = document.querySelector(".login");
 
-  if (!loginButton) return;
+  if (!loginButton) {
+    console.log("Login button not found");
+    return;
+  }
 
   const modal = document.createElement("div");
   modal.className = "auth-modal";
@@ -15,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <h2 id="authTitle">ورود به حساب</h2>
 
       <div class="auth-tabs">
+
         <button type="button" class="auth-tab active" data-mode="login">
           ورود
         </button>
@@ -22,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <button type="button" class="auth-tab" data-mode="register">
           ثبت‌نام
         </button>
+
       </div>
 
       <div id="authMessage"></div>
@@ -37,16 +42,21 @@ document.addEventListener("DOMContentLoaded", () => {
           <input type="email" id="email">
 
           <label>زبان مورد نظر</label>
+
           <select id="language">
+
             <option value="">انتخاب زبان</option>
             <option value="English">انگلیسی</option>
             <option value="German">آلمانی</option>
             <option value="French">فرانسه</option>
             <option value="Korean">کره‌ای</option>
+
           </select>
 
           <label>سطح زبان</label>
+
           <select id="level">
+
             <option value="">انتخاب سطح</option>
             <option value="A1">A1</option>
             <option value="A2">A2</option>
@@ -54,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <option value="B2">B2</option>
             <option value="C1">C1</option>
             <option value="C2">C2</option>
+
           </select>
 
           <label>هدف شما</label>
@@ -78,6 +89,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.body.appendChild(modal);
 
+
+  /* =========================
+     STYLE
+  ========================= */
 
   const style = document.createElement("style");
 
@@ -179,68 +194,116 @@ document.addEventListener("DOMContentLoaded", () => {
   document.head.appendChild(style);
 
 
+  /* =========================
+     ELEMENTS
+  ========================= */
+
   const tabs = modal.querySelectorAll(".auth-tab");
-  const registerFields = modal.querySelector("#registerFields");
-  const submitButton = modal.querySelector(".auth-submit");
-  const form = modal.querySelector("#authForm");
-  const message = modal.querySelector("#authMessage");
-  const title = modal.querySelector("#authTitle");
+
+  const registerFields =
+    modal.querySelector("#registerFields");
+
+  const submitButton =
+    modal.querySelector(".auth-submit");
+
+  const form =
+    modal.querySelector("#authForm");
+
+  const message =
+    modal.querySelector("#authMessage");
+
+  const title =
+    modal.querySelector("#authTitle");
 
   let mode = "login";
 
+
+  /* =========================
+     MODE
+  ========================= */
 
   function setMode(newMode) {
 
     mode = newMode;
 
     tabs.forEach(tab => {
+
       tab.classList.toggle(
         "active",
         tab.dataset.mode === newMode
       );
+
     });
 
     if (newMode === "register") {
 
       registerFields.style.display = "block";
-      title.textContent = "ایجاد حساب کاربری";
-      submitButton.textContent = "ثبت‌نام";
+
+      title.textContent =
+        "ایجاد حساب کاربری";
+
+      submitButton.textContent =
+        "ثبت‌نام";
 
     } else {
 
-      registerFields.style.display = "none";
-      title.textContent = "ورود به حساب";
-      submitButton.textContent = "ورود";
+      registerFields.style.display =
+        "none";
+
+      title.textContent =
+        "ورود به حساب";
+
+      submitButton.textContent =
+        "ورود";
 
     }
 
     message.textContent = "";
+
   }
 
 
-  loginButton.addEventListener("click", () => {
+  /* =========================
+     OPEN
+  ========================= */
+
+  loginButton.addEventListener("click", (event) => {
+
+    event.preventDefault();
 
     modal.classList.add("show");
+
     setMode("login");
 
   });
 
 
-  modal.querySelector(".auth-close").addEventListener("click", () => {
+  /* =========================
+     CLOSE
+  ========================= */
 
-    modal.classList.remove("show");
+  modal.querySelector(".auth-close")
+    .addEventListener("click", () => {
 
-  });
+      modal.classList.remove("show");
+
+    });
 
 
-  modal.addEventListener("click", event => {
+  modal.addEventListener("click", (event) => {
 
     if (event.target === modal) {
+
       modal.classList.remove("show");
+
     }
 
   });
 
+
+  /* =========================
+     TABS
+  ========================= */
 
   tabs.forEach(tab => {
 
@@ -253,96 +316,96 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  form.addEventListener("submit", async event => {
+  /* =========================
+     SUBMIT
+  ========================= */
 
-  event.preventDefault();
+  form.addEventListener("submit", async (event) => {
 
-  message.textContent = "در حال ثبت...";
-
-  submitButton.disabled = true;
-
-  const phone = modal.querySelector("#phone").value.trim();
-  const password = modal.querySelector("#password").value.trim();
-
-  let endpoint;
-  let data;
-
-  if (mode === "login") {
-
-    endpoint = "/api/login";
-
-    data = {
-      mobile: phone,
-      password: password
-    };
-
-  } else {
-
-    endpoint = "/api/register";
-
-    data = {
-      full_name: modal.querySelector("#full_name").value.trim(),
-      phone: phone,
-      email: modal.querySelector("#email").value.trim(),
-      language: modal.querySelector("#language").value,
-      goal: modal.querySelector("#goal").value.trim(),
-      level: modal.querySelector("#level").value,
-      password: password
-    };
-
-  }
-
-  try {
-
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      credentials: "same-origin",
-      body: JSON.stringify(data)
-    });
-
-    const result = await response.json();
-
-    if (!response.ok || !result.ok) {
-
-      message.textContent =
-        result.message || "ثبت‌نام انجام نشد.";
-
-      submitButton.disabled = false;
-
-      return;
-    }
+    event.preventDefault();
 
     message.textContent =
-      result.message || "با موفقیت انجام شد.";
+      "در حال ثبت...";
 
-    if (result.redirect) {
+    submitButton.disabled = true;
 
-      window.location.href = result.redirect;
+
+    const phone =
+      modal.querySelector("#phone").value.trim();
+
+    const password =
+      modal.querySelector("#password").value.trim();
+
+
+    let endpoint;
+    let data;
+
+
+    if (mode === "login") {
+
+      endpoint = "/api/login";
+
+      data = {
+        mobile: phone,
+        password: password
+      };
+
+    } else {
+
+      endpoint = "/api/register";
+
+      data = {
+
+        full_name:
+          modal.querySelector("#full_name").value.trim(),
+
+        phone: phone,
+
+        email:
+          modal.querySelector("#email").value.trim(),
+
+        language:
+          modal.querySelector("#language").value,
+
+        goal:
+          modal.querySelector("#goal").value.trim(),
+
+        level:
+          modal.querySelector("#level").value,
+
+        password: password
+
+      };
 
     }
 
-  } catch (error) {
 
-    console.error(error);
+    try {
 
-    message.textContent =
-      "ارتباط با سرور برقرار نشد.";
+      const response = await fetch(endpoint, {
 
-    submitButton.disabled = false;
+        method: "POST",
 
-  }
+        headers: {
+          "Content-Type": "application/json"
+        },
 
-});
-      const result = await response.json();
+        credentials: "same-origin",
+
+        body: JSON.stringify(data)
+
+      });
+
+
+      const result =
+        await response.json();
 
 
       if (!response.ok || !result.ok) {
 
         message.textContent =
-          result.message || "ثبت‌نام انجام نشد.";
+          result.message ||
+          "عملیات انجام نشد.";
 
         submitButton.disabled = false;
 
@@ -352,16 +415,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
       message.textContent =
-        result.message || "با موفقیت انجام شد.";
+        result.message ||
+        "با موفقیت انجام شد.";
 
 
       if (result.redirect) {
 
         setTimeout(() => {
 
-          window.location.href = result.redirect;
+          window.location.href =
+            result.redirect;
 
-        }, 700);
+        }, 500);
 
       }
 
