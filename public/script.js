@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       <div id="authMessage"></div>
 
-      <form id="authForm">
+      <form id="authForm" novalidate>
 
         <div id="registerFields" style="display:none;">
 
