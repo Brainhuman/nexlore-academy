@@ -314,135 +314,110 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
   });
-submitButton.addEventListener("click", () => {
-  alert("BUTTON CLICKED");
-});
+submitButton.addEventListener("click", async (event) => {
 
-  /* =========================
-     SUBMIT
-  ========================= */
+  event.preventDefault();
 
-  form.addEventListener("submit", async (event) => {
+  message.textContent = "در حال ثبت...";
+  submitButton.disabled = true;
 
-    event.preventDefault();
+  const phone = modal.querySelector("#phone").value.trim();
+  const password = modal.querySelector("#password").value.trim();
 
+  if (!phone || !password) {
     message.textContent =
-      "در حال ثبت...";
+      "لطفاً شماره موبایل و رمز عبور را وارد کنید.";
 
-    submitButton.disabled = true;
+    submitButton.disabled = false;
+    return;
+  }
 
+  let endpoint;
+  let data;
 
-    const phone =
-      modal.querySelector("#phone").value.trim();
+  if (mode === "login") {
 
-    const password =
-      modal.querySelector("#password").value.trim();
+    endpoint = "/api/login";
 
+    data = {
+      mobile: phone,
+      password: password
+    };
 
-    let endpoint;
-    let data;
+  } else {
 
+    endpoint = "/api/register";
 
-    if (mode === "login") {
+    data = {
+      full_name:
+        modal.querySelector("#full_name").value.trim(),
 
-      endpoint = "/api/login";
+      phone: phone,
 
-      data = {
-        mobile: phone,
-        password: password
-      };
+      email:
+        modal.querySelector("#email").value.trim(),
 
-    } else {
+      language:
+        modal.querySelector("#language").value,
 
-      endpoint = "/api/register";
+      goal:
+        modal.querySelector("#goal").value.trim(),
 
-      data = {
+      level:
+        modal.querySelector("#level").value,
 
-        full_name:
-          modal.querySelector("#full_name").value.trim(),
+      password: password
+    };
+  }
 
-        phone: phone,
+  try {
 
-        email:
-          modal.querySelector("#email").value.trim(),
+    const response = await fetch(endpoint, {
 
-        language:
-          modal.querySelector("#language").value,
+      method: "POST",
 
-        goal:
-          modal.querySelector("#goal").value.trim(),
+      headers: {
+        "Content-Type": "application/json"
+      },
 
-        level:
-          modal.querySelector("#level").value,
+      credentials: "same-origin",
 
-        password: password
+      body: JSON.stringify(data)
 
-      };
+    });
 
-    }
+    const result = await response.json();
 
-
-    try {
-
-      const response = await fetch(endpoint, {
-
-        method: "POST",
-
-        headers: {
-          "Content-Type": "application/json"
-        },
-
-        credentials: "same-origin",
-
-        body: JSON.stringify(data)
-
-      });
-
-
-      const result =
-        await response.json();
-
-
-      if (!response.ok || !result.ok) {
-
-        message.textContent =
-          result.message ||
-          "عملیات انجام نشد.";
-
-        submitButton.disabled = false;
-
-        return;
-
-      }
-
+    if (!response.ok || !result.ok) {
 
       message.textContent =
-        result.message ||
-        "با موفقیت انجام شد.";
-
-
-      if (result.redirect) {
-
-        setTimeout(() => {
-
-          window.location.href =
-            result.redirect;
-
-        }, 500);
-
-      }
-
-    } catch (error) {
-
-      console.error(error);
-
-      message.textContent =
-        "ارتباط با سرور برقرار نشد.";
+        result.message || "عملیات انجام نشد.";
 
       submitButton.disabled = false;
 
+      return;
     }
 
-  });
+    message.textContent =
+      result.message || "با موفقیت انجام شد.";
+
+    if (result.redirect) {
+
+      setTimeout(() => {
+        window.location.href = result.redirect;
+      }, 500);
+
+    }
+
+  } catch (error) {
+
+    console.error(error);
+
+    message.textContent =
+      "ارتباط با سرور برقرار نشد.";
+
+    submitButton.disabled = false;
+
+  }
 
 });
