@@ -255,80 +255,87 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.addEventListener("submit", async event => {
 
-    event.preventDefault();
+  event.preventDefault();
 
-    message.textContent = "در حال ثبت...";
+  message.textContent = "در حال ثبت...";
 
-    submitButton.disabled = true;
+  submitButton.disabled = true;
 
+  const phone = modal.querySelector("#phone").value.trim();
+  const password = modal.querySelector("#password").value.trim();
 
-    const phone =
-      modal.querySelector("#phone").value.trim();
+  let endpoint;
+  let data;
 
-    const password =
-      modal.querySelector("#password").value.trim();
+  if (mode === "login") {
 
+    endpoint = "/api/login";
 
-    let endpoint;
-    let data;
+    data = {
+      mobile: phone,
+      password: password
+    };
 
+  } else {
 
-    if (mode === "login") {
+    endpoint = "/api/register";
 
-      endpoint = "/api/login";
+    data = {
+      full_name: modal.querySelector("#full_name").value.trim(),
+      phone: phone,
+      email: modal.querySelector("#email").value.trim(),
+      language: modal.querySelector("#language").value,
+      goal: modal.querySelector("#goal").value.trim(),
+      level: modal.querySelector("#level").value,
+      password: password
+    };
 
-      data = {
-        mobile: phone,
-        password: password
-      };
+  }
 
-    } else {
+  try {
 
-      endpoint = "/api/register";
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "same-origin",
+      body: JSON.stringify(data)
+    });
 
-      data = {
+    const result = await response.json();
 
-        full_name:
-          modal.querySelector("#full_name").value.trim(),
+    if (!response.ok || !result.ok) {
 
-        phone: phone,
+      message.textContent =
+        result.message || "ثبت‌نام انجام نشد.";
 
-        email:
-          modal.querySelector("#email").value.trim(),
+      submitButton.disabled = false;
 
-        language:
-          modal.querySelector("#language").value,
+      return;
+    }
 
-        goal:
-          modal.querySelector("#goal").value.trim(),
+    message.textContent =
+      result.message || "با موفقیت انجام شد.";
 
-        level:
-          modal.querySelector("#level").value,
+    if (result.redirect) {
 
-        password: password
-
-      };
+      window.location.href = result.redirect;
 
     }
 
+  } catch (error) {
 
-    try {
+    console.error(error);
 
-      const response = await fetch(endpoint, {
+    message.textContent =
+      "ارتباط با سرور برقرار نشد.";
 
-        method: "POST",
+    submitButton.disabled = false;
 
-        headers: {
-          "Content-Type": "application/json"
-        },
+  }
 
-        credentials: "same-origin",
-
-        body: JSON.stringify(data)
-
-      });
-
-
+});
       const result = await response.json();
 
 
