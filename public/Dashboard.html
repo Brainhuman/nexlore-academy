@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>Nexlore Academy | حساب کاربری</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f6f8fc;
+      color: #111827;
+    }
+
+    .top {
+      background: white;
+      border-bottom: 1px solid #e8e8e8;
+      padding: 20px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: 800;
+      letter-spacing: 5px;
+      font-size: 18px;
+    }
+
+    .logout {
+      border: 0;
+      background: #111827;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .container {
+      width: 86%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .welcome {
+      margin-top: 55px;
+      background: white;
+      border-radius: 25px;
+      padding: 55px 45px;
+      box-shadow: 0 10px 35px rgba(0,0,0,.06);
+    }
+
+    .welcome small {
+      color: #777;
+      font-size: 15px;
+    }
+
+    .welcome h1 {
+      font-size: 42px;
+      margin: 12px 0;
+    }
+
+    .welcome p {
+      color: #666;
+      font-size: 17px;
+    }
+
+    .section {
+      margin-top: 45px;
+    }
+
+    .section h2 {
+      font-size: 27px;
+      margin-bottom: 20px;
+    }
+
+    .courses {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(230px, 1fr));
+      gap: 20px;
+    }
+
+    .course {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 8px 25px rgba(0,0,0,.05);
+    }
+
+    .course .flag {
+      font-size: 35px;
+    }
+
+    .course h3 {
+      margin: 15px 0 8px;
+    }
+
+    .course p {
+      color: #777;
+      margin: 0;
+    }
+
+    .contact {
+      margin-top: 55px;
+      background: #111827;
+      color: white;
+      border-radius: 25px;
+      padding: 40px;
+      margin-bottom: 50px;
+    }
+
+    .contact h2 {
+      margin-top: 0;
+    }
+
+    .contact-item {
+      margin: 12px 0;
+    }
+
+    .contact a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 100px 20px;
+      font-size: 18px;
+    }
+
+    @media (max-width: 600px) {
+
+      .welcome {
+        padding: 35px 25px;
+      }
+
+      .welcome h1 {
+        font-size: 31px;
+      }
+
+      .top {
+        padding: 18px 5%;
+      }
+
+      .container {
+        width: 92%;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <header class="top">
+
+    <div class="logo">
+      NEXLORE
+    </div>
+
+    <button
+      class="logout"
+      id="logout"
+    >
+      خروج
+    </button>
+
+  </header>
+
+
+  <main class="container">
+
+    <div
+      id="loading"
+      class="loading"
+    >
+      در حال بارگذاری حساب کاربری...
+    </div>
+
+
+    <div
+      id="content"
+      style="display:none;"
+    >
+
+      <section class="welcome">
+
+        <small>
+          NEXLORE ACADEMY
+        </small>
+
+        <h1>
+          سلام <span id="userName"></span> 👋
+        </h1>
+
+        <p>
+          به آکادمی زبان نکسلور خوش آمدید.
+          آماده‌ای برای فراتر رفتن از زبان؟
+        </p>
+
+      </section>
+
+
+      <section class="section">
+
+        <h2>
+          دوره‌های ما
+        </h2>
+
+        <div class="courses">
+
+          <div class="course">
+            <div class="flag">🇬🇧</div>
+            <h3>زبان انگلیسی</h3>
+            <p>English Language</p>
+          </div>
+
+          <div class="course">
+            <div class="flag">🇩🇪</div>
+            <h3>زبان آلمانی</h3>
+            <p>German Language</p>
+          </div>
+
+          <div class="course">
+            <div class="flag">🇫🇷</div>
+            <h3>زبان فرانسه</h3>
+            <p>French Language</p>
+          </div>
+
+          <div class="course">
+            <div class="flag">🇰🇷</div>
+            <h3>زبان کره‌ای</h3>
+            <p>Korean Language</p>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="contact">
+
+        <h2>
+          ارتباط با ما
+        </h2>
+
+        <div class="contact-item">
+          📞
+          <a href="tel:09965656792">
+            09965656792
+          </a>
+        </div>
+
+        <div class="contact-item">
+          📧
+          <a href="mailto:asenaahadi0@gmail.com">
+            asenaahadi0@gmail.com
+          </a>
+        </div>
+
+        <div class="contact-item">
+          📱
+          <a
+            href="https://instagram.com/nexlore.academy"
+            target="_blank"
+          >
+            @nexlore.academy
+          </a>
+        </div>
+
+        <div class="contact-item">
+          💬
+          <a href="https://wa.me/989193457814">
+            واتساپ: 09193457814
+          </a>
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <script>
+
+    async function loadUser() {
+
+      try {
+
+        const response =
+          await fetch("/api/me", {
+            credentials: "same-origin"
+          });
+
+        const result =
+          await response.json();
+
+
+        if (!response.ok || !result.ok) {
+
+          window.location.href = "/";
+
+          return;
+
+        }
+
+
+        const user = result.user;
+
+
+        const fullName =
+          user.full_name || "کاربر عزیز";
+
+
+        /*
+          فقط اسم اول را برای
+          «سلام ...» استفاده می‌کنیم.
+        */
+
+        const firstName =
+          fullName.trim().split(/\s+/)[0];
+
+
+        document.getElementById("userName")
+          .textContent = firstName;
+
+
+        document.getElementById("loading")
+          .style.display = "none";
+
+
+        document.getElementById("content")
+          .style.display = "block";
+
+      }
+
+
+      catch (error) {
+
+        console.error(error);
+
+        window.location.href = "/";
+
+      }
+
+    }
+
+
+    document
+      .getElementById("logout")
+      .addEventListener("click", async () => {
+
+        try {
+
+          await fetch("/api/logout", {
+            method: "POST",
+            credentials: "same-origin"
+          });
+
+        }
+
+        finally {
+
+          window.location.href = "/";
+
+        }
+
+      });
+
+
+    loadUser();
+
+  </script>
+
+</body>
+
+</html>
