@@ -314,7 +314,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
   });
-
+submitButton.addEventListener("click", () => {
+  alert("BUTTON CLICKED");
+});
 
   /* =========================
      SUBMIT
