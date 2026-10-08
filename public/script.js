@@ -15,11 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
       <h2 id="authTitle">ورود به حساب</h2>
 
       <div class="auth-tabs">
-        <button class="auth-tab active" data-mode="login">
+        <button type="button" class="auth-tab active" data-mode="login">
           ورود
         </button>
 
-        <button class="auth-tab" data-mode="register">
+        <button type="button" class="auth-tab" data-mode="register">
           ثبت‌نام
         </button>
       </div>
@@ -31,18 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
         <div id="registerFields" style="display:none;">
 
           <label>نام و نام خانوادگی</label>
-          <input
-            type="text"
-            id="full_name"
-            placeholder="نام و نام خانوادگی"
-          >
+          <input type="text" id="full_name">
 
           <label>ایمیل</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="example@email.com"
-          >
+          <input type="email" id="email">
 
           <label>زبان مورد نظر</label>
           <select id="language">
@@ -65,34 +57,17 @@ document.addEventListener("DOMContentLoaded", () => {
           </select>
 
           <label>هدف شما</label>
-          <input
-            type="text"
-            id="goal"
-            placeholder="مثلاً مکالمه، مهاجرت، آزمون..."
-          >
+          <input type="text" id="goal">
 
         </div>
 
         <label>شماره موبایل</label>
-        <input
-          type="tel"
-          id="phone"
-          placeholder="09xxxxxxxxx"
-          required
-        >
+        <input type="tel" id="phone" required>
 
         <label>رمز عبور</label>
-        <input
-          type="password"
-          id="password"
-          placeholder="رمز عبور"
-          required
-        >
+        <input type="password" id="password" required>
 
-        <button
-          class="auth-submit"
-          type="submit"
-        >
+        <button class="auth-submit" type="submit">
           ورود
         </button>
 
@@ -103,10 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.body.appendChild(modal);
 
-
-  /* =========================
-     STYLE
-  ========================= */
 
   const style = document.createElement("style");
 
@@ -135,23 +106,16 @@ document.addEventListener("DOMContentLoaded", () => {
       background: white;
       border-radius: 22px;
       padding: 30px;
-      box-sizing: border-box;
       box-shadow: 0 20px 60px rgba(0,0,0,.3);
       direction: rtl;
       position: relative;
-    }
-
-    .auth-box h2 {
-      text-align: center;
-      margin-top: 0;
-      margin-bottom: 22px;
     }
 
     .auth-close {
       position: absolute;
       top: 10px;
       left: 15px;
-      border: none;
+      border: 0;
       background: transparent;
       font-size: 30px;
       cursor: pointer;
@@ -170,7 +134,6 @@ document.addEventListener("DOMContentLoaded", () => {
       background: #f5f5f5;
       border-radius: 10px;
       cursor: pointer;
-      font-size: 16px;
     }
 
     .auth-tab.active {
@@ -198,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
       width: 100%;
       margin-top: 20px;
       padding: 13px;
-      border: none;
+      border: 0;
       border-radius: 10px;
       background: #111;
       color: white;
@@ -206,14 +169,8 @@ document.addEventListener("DOMContentLoaded", () => {
       font-size: 16px;
     }
 
-    .auth-submit:disabled {
-      opacity: .6;
-      cursor: wait;
-    }
-
     #authMessage {
       margin-bottom: 10px;
-      font-size: 14px;
       text-align: center;
     }
 
@@ -222,10 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.head.appendChild(style);
 
 
-  /* =========================
-     ELEMENTS
-  ========================= */
-
   const tabs = modal.querySelectorAll(".auth-tab");
   const registerFields = modal.querySelector("#registerFields");
   const submitButton = modal.querySelector(".auth-submit");
@@ -233,13 +186,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const message = modal.querySelector("#authMessage");
   const title = modal.querySelector("#authTitle");
 
-
   let mode = "login";
 
-
-  /* =========================
-     LOGIN / REGISTER MODE
-  ========================= */
 
   function setMode(newMode) {
 
@@ -255,40 +203,28 @@ document.addEventListener("DOMContentLoaded", () => {
     if (newMode === "register") {
 
       registerFields.style.display = "block";
-
       title.textContent = "ایجاد حساب کاربری";
-
       submitButton.textContent = "ثبت‌نام";
 
     } else {
 
       registerFields.style.display = "none";
-
       title.textContent = "ورود به حساب";
-
       submitButton.textContent = "ورود";
+
     }
 
     message.textContent = "";
   }
 
 
-  /* =========================
-     OPEN
-  ========================= */
-
   loginButton.addEventListener("click", () => {
 
     modal.classList.add("show");
-
     setMode("login");
 
   });
 
-
-  /* =========================
-     CLOSE
-  ========================= */
 
   modal.querySelector(".auth-close").addEventListener("click", () => {
 
@@ -300,17 +236,11 @@ document.addEventListener("DOMContentLoaded", () => {
   modal.addEventListener("click", event => {
 
     if (event.target === modal) {
-
       modal.classList.remove("show");
-
     }
 
   });
 
-
-  /* =========================
-     TABS
-  ========================= */
 
   tabs.forEach(tab => {
 
@@ -323,15 +253,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  /* =========================
-     FORM SUBMIT
-  ========================= */
-
   form.addEventListener("submit", async event => {
 
     event.preventDefault();
 
-    message.textContent = "لطفاً صبر کنید...";
+    message.textContent = "در حال ثبت...";
 
     submitButton.disabled = true;
 
@@ -347,8 +273,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let data;
 
 
-    /* LOGIN */
-
     if (mode === "login") {
 
       endpoint = "/api/login";
@@ -358,12 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
         password: password
       };
 
-    }
-
-
-    /* REGISTER */
-
-    else {
+    } else {
 
       endpoint = "/api/register";
 
@@ -416,7 +335,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!response.ok || !result.ok) {
 
         message.textContent =
-          result.message || "عملیات ناموفق بود.";
+          result.message || "ثبت‌نام انجام نشد.";
 
         submitButton.disabled = false;
 
@@ -426,10 +345,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
       message.textContent =
-        result.message || "عملیات با موفقیت انجام شد.";
+        result.message || "با موفقیت انجام شد.";
 
-
-      /* REDIRECT */
 
       if (result.redirect) {
 
@@ -441,10 +358,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       }
 
-    }
-
-
-    catch (error) {
+    } catch (error) {
 
       console.error(error);
 
